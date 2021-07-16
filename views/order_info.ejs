@@ -1,0 +1,64 @@
+<%- include ('./_layouts/header') %>
+
+    <h1><%= title %></h1>
+
+    <form action="/orders/confirm" method="POST">
+    
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" name="name" placeholder="Name" required>
+        </div>
+
+        <div class="form-group">
+            <label>Address</label>
+            <input type="text" class="form-control" name="address" placeholder="Address" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" class="form-control" name="phone" placeholder="Phone number: 0123456789" pattern="[0-9]{10}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" class="form-control" name="email" placeholder="Email">
+        </div>
+
+        <div class="form-group">
+            <label>Product</label>
+            <div class="col-xs-12 col-md-5">
+                <table class="table table-stripped align-mid">
+                    <tr>
+                        <th>Image</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th></th>
+                        <th>Subtotal</th>
+                    </tr>
+        
+                    <% var total = 0; %>
+                    <% cart.forEach((product) => { %>
+                        <% var sub = product.qty * product.price; %>
+                        <% total += +sub; %>
+                        <tr>
+                            <td><img class="cpi" src="<%= product.image %>" alt="<%= product.slug %>"></td>
+                            <td><%= product.title %></td>
+                            <td><%= product.price %> VND</td>
+                            <td><%= product.qty %></td>
+                            <td></td>
+                            <td><%= sub %> VND</td>
+                        </tr>
+                    <% }); %>
+                    <tr>
+                        <td colspan="5" align="right"><b>Total: </b><%= total %> VND</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Confirm Order</button>
+        
+    </form>
+
+<%- include ('./_layouts/footer') %>

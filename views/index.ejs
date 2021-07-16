@@ -1,0 +1,11 @@
+<%- include ('./_layouts/header') %>
+
+    <%- content %>
+
+    <% pages.forEach((page) => { %> 
+        <% if (page.slug == "home") { %> 
+            <%- include ('./_partials/auto_sliding') %>
+        <% } %>
+    <% }); %>
+
+<%- include ('./_layouts/footer') %>

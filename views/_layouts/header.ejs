@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title><%= title %></title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" 
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/css/admin_style.css">
+    </head>
+    <body>
+        <div class="ajaxBg">
+            <div class="ajaxInner">
+                <h3>Redirecting to Paypal...</h3>
+                <img src="/images/ajax-loader.gif" alt="">
+            </div>
+        </div>
+
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark mb-3 navbar-inverse">
+            <div class="container">
+                <!-- Logo -->
+                <a href="/" class="navbar-brand"> Do An Cuoi Ky </a>
+        
+                <!-- Official Navbar -->
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav nav">
+                        <% pages.forEach((page) => { %> 
+                            <% if (page.slug == "home") { %> 
+                                <li><a class="ml-4 mr-4" href="/"><%= page.title %></a></li>
+                            <% } else { %>
+                                <li><a class="ml-4 mr-4" href="/<%= page.slug %>"><%= page.title %></a></li>
+                            <% } %>
+                        <% }); %>
+                    </ul>
+
+                    <ul class="navbar-nav nav ml-auto">
+                        <li>
+                                <a href="/cart/checkout">Cart ( 
+                                    <% if (typeof cart !== "undefined") { %>
+                                        <%= cart.length %>
+                                    <% } else {%>
+                                        0
+                                    <% } %>
+                                )</a>
+                        </li>
+                       
+                        <% if (user) { %> 
+                            <li class="reg-log" style="color: white;">Hi <%= user.username %> <a href="/users/logout">(Log Out)</a></li>
+                        <% } else { %>
+                            <li class="reg-log"><a href="/users/register">Register</a></li>
+                            <li class="reg-log"><a href="/users/login">Log In</a></li>
+                        <% } %>
+                            
+                        <% if (user && user.admin == 1) { %> 
+                            <li class="reg-log"><a href="/admin/pages">Admin Area</a></li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+
+        <%- messages('messages', locals) %>
+        <% if (errors) { %>
+            <% errors.forEach((error) => { %>
+                <div class="alert alert-error">
+                    <%= msg %>
+                </div>
+            <% }); %>
+        <% } %>
+        
+        <div class="row">
+            <div class="col-xs-12 col-md-3">
+                <h3>Categories</h3>
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="/products/all">All products</a></li>
+                    <% categories.forEach((cat) => { %>
+                        <li class="list-group-item"><a href="/products/<%= cat.slug %>"><%= cat.title %></a></li>
+                    <% }); %>
+                </ul>
+            </div>           
+
+            <div class="col-xs-12 col-md-8">
+
+                
+          
+   

@@ -1,0 +1,43 @@
+<%- include ('../_layouts/admin_header') %>
+
+    <h2 class="page-title">Pages</h2>
+    <a href="/admin/pages/add-page" class="btn btn-primary">Add a new page</a>
+    <br><br>
+
+    <table class="table table-stripped sorting">
+        <thead>
+            <tr class="home">
+                <th>Title</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% pages.forEach((page) => { %>
+                <tr id="id_<%= page.id %>" class="<%= page.slug %>" >
+                    <td><%= page.title %></td>
+                    <td><a href="pages/edit-page/<%= page._id %>">Edit</a></td>
+                    <% if (page.slug == "home") { %>
+                        <td></td>
+                    <% } else { %> 
+                        <td><a class="confirmDelete" href="pages/delete-page/<%= page.id %>">Delete</a></td>
+                    <% } %>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    
+    <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+    <script>
+        $('tbody').sortable({
+            items: "tr:not('.home')",
+            placeholder: "ui-state-highlight",
+            update: () => {
+                var ids = $('tbody').sortable("serialize");
+                var url = "/admin/pages/reorder-page";
+
+                $.post(url,ids);
+            }
+        });
+    </script>
+<%- include ('../_layouts/admin_footer') %>
